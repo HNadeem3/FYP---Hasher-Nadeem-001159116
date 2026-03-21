@@ -6,13 +6,21 @@ This project aims to build a product to help CISOs.
 Sections for the project report:
 
 Abstract
+
 Introduction
+
 Literature Review
+
 Product Review
+
 Requirements Analysis and Design
+
 Implementation
+
 Results and Evaluation
+
 Legal, Social, Ethical and Professional Issues
+
 Conclusion
 
 Product comparisons: 
@@ -32,5 +40,8 @@ Currently researching scenario parameters CISOs need to be aware of when formula
 Currently the parameters are:
 Budget
 CIS Controls
+
+21/03/26 update:
+currently developing code using flask for backend and JavaScript for frot end. Will hold off doing writing protion until product is finished.
 
 
