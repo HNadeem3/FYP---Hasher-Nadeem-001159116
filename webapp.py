@@ -1,7 +1,5 @@
 from flask import Flask
 from flask import jsonify
-#import os (Non-hardcoded version)
-#from dotenv import load_dotenv (Non-hardcoded version)
 import google.generativeai as genai
 
 
@@ -74,19 +72,12 @@ def industry_risks(sector):
 def show_user(name):
     return f"Hello, {name}! This is your personalised page."
 
-#API integration section: placeholder code for now
-'''
-#Non-hardcoded version:
-#loads API key from .env ( Environment Variables File )
-load_dotenv()
+#API integration section:
 
-genai.configure(api_key=os.getenv("Actual Key"))
-
-#hardcoded version
+#hardcoded key
 api_key = "hardcoded api-key"
-# No need to import os or dotenv
+
 genai.configure(api_key="Actual Key")
-'''
 
 model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
