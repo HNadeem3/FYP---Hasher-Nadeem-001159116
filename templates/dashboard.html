@@ -90,8 +90,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                Total: newTotal,
-                Spent: newSpent
+                Total: newTotal, Spent: newSpent
                 })
             })
             .then(response => response.json())

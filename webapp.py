@@ -78,12 +78,12 @@ def edit_budget():
 
         with open('data.json', 'r') as f:
             file_data = json.load(f)
-
+        #calls budget in Jason file
         file_data['budget']['total_budget'] = new_total
         file_data['budget']['amount_spent'] = new_spent
         file_data['budget']['amount_remaining'] = new_total - new_spent
 
-#opens data file and makes it readable before closing
+#opens data file and makes it writable before closing
         with open('data.json', 'w') as f:
             json.dump(file_data, f, indent=2)
         return jsonify({'budget': file_data['budget'], 'message': 'Budget updated'})
