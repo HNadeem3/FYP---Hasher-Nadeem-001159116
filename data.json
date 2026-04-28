@@ -1,0 +1,38 @@
+{
+  "budget": {
+    "amount_remaining": 0.0,
+    "amount_spent": 0.0,
+    "total_budget": 0.0
+  },
+  "customer_details": [
+    {
+      "address": "X Road",
+      "card_info": 13579,
+      "name": "Susan"
+    },
+    {
+      "address": "Y Road",
+      "card_info": 24680,
+      "name": "Tom"
+    }
+  ],
+  "email_security": {
+    "MFA_check": "Last checked on: 10/01/26",
+    "Multi-Factor Authentication (MFA)": "Activated for all users",
+    "awareness_training": "Last held: 15/03/26",
+    "password": "Last reset on: 01/03/26",
+    "suspicious_activity": "Last scan: 01/05/26"
+  },
+  "incidents": [
+    {
+      "date": "12/12/25",
+      "status": "resolved",
+      "vector": "phishing"
+    },
+    {
+      "date": "05/02/26",
+      "status": "investigating",
+      "vector": "Email"
+    }
+  ]
+}

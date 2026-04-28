@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CISO Dashboard</title>
+</head>
+<!-- AI section of the web page's front end -->
+<body>
+    <h1>CISO Dashboard</h1>
+<!-- <div> is a container that groups items together -->
+    <div>
+        <label for="question">Ask your AI Advisor:</label><br>
+        <input type="text" id="question"  style="width: 200px;">
+        <button onclick="sendQuestion()">Ask</button>
+    </div>
+<!-- AI response section -->
+    <div id="responseArea">
+        <p><strong>Response:</strong></p>
+        <p id="responseText">AI's Response:</p>
+    </div>
+
+    <div id="budgetWidget">
+    <h2>Budget Overview</h2>
+
+    <div>
+        <label>Total Budget: €</label>
+        <input type="number" id="totalInput" value="">
+        <button onclick="editBudget()">Save Budget</button>
+    </div>
+
+    <div>
+        <label>Spent: €</label>
+        <input type="number" id="spentInput" value="">
+    </div>
+
+    <p>Remaining: €<span id="remainingBudget">0</span></p>
+
+    <button onclick="refreshBudget()">Refresh</button>
+</div>
+<hr>
+
+
+    <script>
+        function sendQuestion() {
+            let question = document.getElementById('question').value;
+
+            if (question.trim() === "") {
+                document.getElementById('responseText').innerText = "Ask a question:";
+                return;
+            }
+
+            document.getElementById('responseText').innerText = "Loading...";
+
+            fetch('/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: question })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Displays the AI's response
+                if (data.Response) {
+                    document.getElementById('responseText').innerText = data.Response;
+                } else if (data.error) {
+                    document.getElementById('responseText').innerText = "Error: " + data.error;
+                } else {
+                    document.getElementById('responseText').innerText = "Unexpected response from server.";
+                }
+            })
+        }
+
+        function refreshBudget() {
+            fetch('/assets/budget')
+                .then(response => response.json())
+                .then(data => {
+                    const budget = data.data;
+                    document.getElementById('totalBudget').innerText = budget.total;
+                    document.getElementById('spentBudget').innerText = budget.spent;
+                    document.getElementById('remainingBudget').innerText = budget.remaining;
+                    document.getElementById('totalInput').value = budget.total;
+                    document.getElementById('spentInput').value = budget.spent;
+                });
+            }
+
+        function editBudget() {
+            let newTotal = document.getElementById('totalInput').value;
+            let newSpent = document.getElementById('spentInput').value;
+
+            fetch('/edit/budget', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                Total: newTotal,
+                Spent: newSpent
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else if (data.budget){
+                    document.getElementById('remainingBudget').innerText = data.budget.remaining;
+                    document.getElementById('totalInput').value = data.budget.total;
+                    document.getElementById('spentInput').value = data.budget.spent;
+
+                }
+            });
+        }
+    //reloads budget
+    window.onload = function() {
+        refreshBudget();
+    };
+
+
+    </script>
+</body>
+</html>
