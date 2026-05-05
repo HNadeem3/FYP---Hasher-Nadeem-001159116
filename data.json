@@ -1,8 +1,8 @@
 {
   "budget": {
-    "total_budget": 0,
-    "amount_remaining": 0,
-    "amount_spent": 0
+    "total_budget": 0.0,
+    "amount_remaining": 0.0,
+    "amount_spent": 0.0
   },
   "customer_details": [
     {

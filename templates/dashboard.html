@@ -17,10 +17,21 @@
     <div id="responseArea">
         <p><strong>Response:</strong></p>
         <p id="responseText">AI's Response:</p>
+        <button onclick="copyresponsetoTask()">Save Response to Task List</button>
     </div>
 
+<!-- To do List section -->
+    <hr>
+    <h2>Task List</h2>
+    <div>
+        <textarea id="taskText" rows="5" cols="50" placeholder="Enter Tasks here..."></textarea><br>
+        <button onclick="saveTask()">Save Tasks</button>
+    </div>
+
+<!-- Budget widget section -->
+    <hr>
     <div id="budgetWidget">
-    <h2>Budget Overview</h2>
+    <h3>Budget Overview</h3>
 
     <div>
         <label>Total Budget: €</label>
@@ -35,7 +46,7 @@
 
     <p>Remaining: €<span id="remainingBudget">0</span></p>
 
-    <button onclick="refreshBudget()">Refresh</button>
+    <button onclick="refreshBudget()">Reload</button>
 </div>
 <hr>
 
@@ -64,9 +75,16 @@
                 } else if (data.error) {
                     document.getElementById('responseText').innerText = "Error: " + data.error;
                 } else {
-                    document.getElementById('responseText').innerText = "Unexpected response from server.";
+                    document.getElementById('responseText').innerText = "Unexpected response.";
                 }
             })
+        }
+        // copy AI's response to task list section:
+        function copyresponsetoTask() {
+        const responseElement = document.getElementById('responseText');
+        const aiResponse = responseElement.innerText;
+        const taskTextArea = document.getElementById('taskText');
+        taskTextArea.value = aiResponse;
         }
 
         function refreshBudget() {
@@ -105,12 +123,42 @@
                 }
             });
         }
-    //reloads budget
+    //reloads budget on page refresh
     window.onload = function() {
         refreshBudget();
     };
 
+        function loadTask() {
+            fetch('/todolist')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('taskText').value = data.todolist;
+                })
+            .catch(error => console.error('Error loading list:', error));
+}
+        function saveTask() {
+            const taskText = document.getElementById('taskText').value;
+            fetch('/todolist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ todolist: taskText })
+                })
+            .then(response => {
+                if (response.ok) {
+                    alert('Tasks saved');
+                } else {
+                alert('Failed to save tasks');
+                }
+            })
+            .catch(error => console.error('Error saving tasks:', error));
+            } //confirms to user that tasks have been saved
 
+    window.addEventListener('load', function() {
+        loadTask();
+    });
+    window.onload = function() {
+        loadTask();
+    }; //when page is refreshed, reloads tasks entered previously
     </script>
 </body>
 </html>

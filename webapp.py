@@ -23,8 +23,36 @@ def about():
 def dashboard():
     return render_template('dashboard.html')
 
+# read and write functions for the to do list:
+def load_todolist():
+    try:
+        with open('todolist.json', 'r') as f:
+            data = json.load(f)
+            if isinstance(data, list): # test to see if the back end works correctly
+                return "\n".join(data) if data else ""
+            return data.get('todolist', '')
+    except FileNotFoundError:
+        return ""
 
-# route for organisation policies and legal frameworks
+def save_todolist(todolist_text):
+    print("Saving:", todolist_text)
+    with open('todolist.json', 'w') as f:
+        json.dump({"todolist": todolist_text}, f)
+
+#gets tasks from to do list
+@app.route('/todolist', methods=['GET'])
+def get_todolist():
+    return jsonify({'todolist' : load_todolist()})
+
+@app.route('/todolist', methods=['POST'])
+def save_list():
+    data = request.get_json()
+    task_text = data.get('todolist', '')
+    save_todolist(task_text)
+    return jsonify({'message': 'Tasks saved'})
+
+
+# route for organisation's policies and legal frameworks
 @app.route('/policies')
 def policies():
     return "These are the policies to be aware of:"
@@ -72,20 +100,20 @@ def assets(category):
 def edit_budget():
     try:
         data = request.get_json()
-
+        #used Ai to try to get this function to work but ultimately didn't work out.
         new_total = float(data.get('total', 0))
         new_spent = float(data.get('spent', 0))
 
         with open('data.json', 'r') as f:
             file_data = json.load(f)
-        #calls budget in Jason file
+        #calls budget in JSON file
         file_data['budget']['total_budget'] = new_total
         file_data['budget']['amount_spent'] = new_spent
         file_data['budget']['amount_remaining'] = new_total - new_spent
 
 #opens data file and makes it writable before closing
         with open('data.json', 'w') as f:
-            json.dump(file_data, f, indent=2)
+            json.dump(file_data, f)
         return jsonify({'budget': file_data['budget'], 'message': 'Budget updated'})
 
     #Error exception:
@@ -115,7 +143,7 @@ def show_user(name):
 #API integration section:
 # install in terminal : pip install -q -U google-genai
 #hardcoded key
-api_key = "" #"hardcoded api-key"
+api_key = "AIzaSyASDx7H7avHF3y0aQTL-5wPgGKvy45JIXU" #"hardcoded api-key"
 genai.configure(api_key=api_key)
 
 model = genai.GenerativeModel(
@@ -133,7 +161,7 @@ model = genai.GenerativeModel(
     " could be looked at or improvements made based on the qualities listed previously. You should support"
     " the CISO and work within the given constraints, not expanding upon them."
 )
-
+#post questions to the AI via back-end:
 @app.route('/ask', methods=['POST'])
 def ask():
     data = request.get_json()
