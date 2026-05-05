@@ -143,7 +143,7 @@ def show_user(name):
 #API integration section:
 # install in terminal : pip install -q -U google-genai
 #hardcoded key
-api_key = "AIzaSyASDx7H7avHF3y0aQTL-5wPgGKvy45JIXU" #"hardcoded api-key"
+api_key = "" #"hardcoded api-key"
 genai.configure(api_key=api_key)
 
 model = genai.GenerativeModel(
