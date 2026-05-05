@@ -35,11 +35,13 @@ Product Development:
 Designing a Web App that will consolidate information from LLMs for CISOs to use.
 
 
-Websites that were used to help code the back-end:
+Websites that were used to help code
 
 How to Build a Flask Python Web Application from Scratch
 
 Quickstart — Flask Documentation (3.1.x)
+
+API — Flask Documentation (3.1.x)
 
 Using Path Parameters in Dynamic Routes | CodeSignal Learn
 
@@ -53,6 +55,19 @@ Gemini API quickstart  |  Google AI for Developers
 
 Building Efficient Flask POST APIs: Tips & Debugging Guide
 
+Edit - Stack Overflow
+
+json — JSON encoder and decoder — Python 3.14.4 documentation
+
+HTML Input Types
+
+Using the Fetch API - Web APIs | MDN
+
+https://pzwiki.wdka.nl/mw-mediadesign/index.php?curid=47514&oldid=272307&title=User:Kiara/Code
+
+https://coreui.io/answers/how-to-make-a-post-request-in-javascript/
+
+https://basescripts.com/using-fetch-to-make-http-requests-in-javascript?trk=article-ssr-frontend-pulse_little-text-block
 
 
 Project Log:
